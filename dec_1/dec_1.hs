@@ -2,11 +2,11 @@ calc :: Int -> Int
 calc x = (x `div` 3) - 2
 
 rec_calc :: Int -> Int
-rec_calc x 
-    | x <= 0 = 0
-    | otherwise = extra + rec_calc extra
-    where
-        extra = max 0 (calc x)
+rec_calc x
+  | x <= 0 = 0
+  | otherwise = extra + rec_calc extra
+  where
+    extra = max 0 (calc x)
 
 solve1 :: [Int] -> Int
 solve1 = sum . map calc
