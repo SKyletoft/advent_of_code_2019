@@ -14,16 +14,14 @@ doAdrOp f mem pc = intcode new_mem new_pc
 getThree :: [Int] -> Int -> (Int, Int, Int)
 getThree mem pc = (lhs, rhs, out)
   where
-    lhs = mem !! (pc + 1)
-    rhs = mem !! (pc + 2)
-    out = mem !! (pc + 3)
+    (_ : lhs : rhs : out : _) = drop pc mem
 
 intcode :: [Int] -> Int -> [Int]
-intcode mem pc
-  | mem !! pc == 99 = mem
-  | mem !! pc == 1 = doAdrOp (+) mem pc
-  | mem !! pc == 2 = doAdrOp (*) mem pc
-  | otherwise = error "Invalid opcode!"
+intcode mem pc = case mem !! pc of
+  99 -> mem
+  1 -> doAdrOp (+) mem pc
+  2 -> doAdrOp (*) mem pc
+  _ -> error "Invalid opcode!"
 
 intcodeWithInputs :: Int -> Int -> [Int] -> Int
 intcodeWithInputs a b [] = error "No program"
